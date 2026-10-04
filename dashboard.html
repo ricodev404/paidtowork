@@ -1,0 +1,2688 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PTW — Dashboard</title>
+
+    <meta
+        name="description"
+        content="Painel do usuário Paid To Work"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+
+            --bg: #050811;
+            --bg-2: #080d19;
+
+            --sidebar: #070c16;
+
+            --card: #0b1220;
+            --card-2: #0e1727;
+
+            --border: rgba(255,255,255,.07);
+
+            --blue: #138cff;
+            --blue-2: #00c8ff;
+
+            --cyan: #00e5ff;
+
+            --green: #20e38b;
+            --yellow: #ffc857;
+            --red: #ff5574;
+
+            --text: #f4f8ff;
+            --muted: #8997ab;
+
+            --sidebar-width: 245px;
+
+            --radius: 18px;
+        }
+
+
+        body {
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 20% 0%,
+                    rgba(19,140,255,.13),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(0,229,255,.07),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+
+        button,
+        input,
+        select {
+
+            font-family: inherit;
+        }
+
+
+        a {
+
+            color: inherit;
+
+            text-decoration: none;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(11,19,33,.98),
+                    rgba(5,8,17,.98)
+                );
+
+            border-right: 1px solid var(--border);
+
+            padding: 22px 16px;
+
+            z-index: 1000;
+
+            transition: .3s;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 4px 10px 25px;
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--cyan)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 0 28px
+                rgba(0,200,255,.25);
+        }
+
+
+        .brand-name {
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            letter-spacing: -.6px;
+        }
+
+
+        .brand-name span {
+
+            color: var(--cyan);
+        }
+
+
+        .menu-title {
+
+            color: #56667b;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            padding: 0 12px;
+
+            margin: 12px 0 9px;
+        }
+
+
+        .menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+
+        .menu a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+
+        .menu a:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.045);
+        }
+
+
+        .menu a.active {
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(19,140,255,.18),
+                    rgba(0,200,255,.05)
+                );
+
+            border: 1px solid
+                rgba(19,140,255,.14);
+
+            box-shadow:
+                inset 3px 0 0 var(--blue);
+        }
+
+
+        .menu-icon {
+
+            width: 21px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        .sidebar-bottom {
+
+            position: absolute;
+
+            left: 16px;
+            right: 16px;
+
+            bottom: 18px;
+        }
+
+
+        .support-card {
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(19,140,255,.13),
+                    rgba(0,229,255,.035)
+                );
+
+            border:
+                1px solid
+                rgba(19,140,255,.14);
+
+            margin-bottom: 12px;
+        }
+
+
+        .support-card strong {
+
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .support-card p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        .logout {
+
+            width: 100%;
+
+            border: 0;
+
+            background:
+                rgba(255,255,255,.04);
+
+            color: #9aa8ba;
+
+            padding: 11px;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+
+        .logout:hover {
+
+            background:
+                rgba(255,85,116,.1);
+
+            color: var(--red);
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+
+            margin-left: var(--sidebar-width);
+
+            min-height: 100vh;
+
+            padding: 25px 30px 40px;
+        }
+
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .mobile-menu {
+
+            display: none;
+
+            border: 0;
+
+            background:
+                rgba(255,255,255,.05);
+
+            color: white;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+
+        .welcome h1 {
+
+            font-size: 25px;
+
+            letter-spacing: -.8px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .welcome p {
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .notification {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,.045);
+
+            border: 1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+
+            position: relative;
+
+            cursor: pointer;
+        }
+
+
+        .notification-dot {
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--red);
+
+            top: 8px;
+            right: 8px;
+
+            box-shadow:
+                0 0 8px var(--red);
+        }
+
+
+        .user-mini {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 5px 10px 5px 5px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 13px;
+
+            background:
+                rgba(255,255,255,.035);
+        }
+
+
+        .avatar {
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--cyan)
+                );
+        }
+
+
+        .user-mini strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            max-width: 120px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .user-mini small {
+
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 26px;
+
+            border-radius: 22px;
+
+            margin-bottom: 20px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #0b1b31 0%,
+                    #0b1527 45%,
+                    #09111f 100%
+                );
+
+            border:
+                1px solid
+                rgba(19,140,255,.15);
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,.2);
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 330px;
+            height: 330px;
+
+            right: -120px;
+            top: -180px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0,200,255,.22),
+                    transparent 68%
+                );
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 200px;
+            height: 200px;
+
+            right: 100px;
+            bottom: -170px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(19,140,255,.2),
+                    transparent 70%
+                );
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+
+        .hero-tag {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 6px 10px;
+
+            border-radius: 30px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .8px;
+
+            color: #8fddff;
+
+            background:
+                rgba(0,200,255,.08);
+
+            border:
+                1px solid
+                rgba(0,200,255,.13);
+
+            margin-bottom: 12px;
+        }
+
+
+        .hero h2 {
+
+            font-size: 26px;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .hero h2 span {
+
+            color: var(--cyan);
+        }
+
+
+        .hero p {
+
+            color: #91a2b7;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            max-width: 570px;
+        }
+
+
+        .hero-button {
+
+            display: inline-flex;
+
+            margin-top: 17px;
+
+            padding: 11px 17px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    #00bce8
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(19,140,255,.22);
+        }
+
+
+        /* =========================================
+           STATS
+        ========================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .stat {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(14,23,39,.98),
+                    rgba(8,14,25,.98)
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 18px;
+
+            transition: .25s;
+        }
+
+
+        .stat:hover {
+
+            transform: translateY(-3px);
+
+            border-color:
+                rgba(19,140,255,.2);
+        }
+
+
+        .stat-icon {
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(19,140,255,.1);
+
+            font-size: 16px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .stat.green .stat-icon {
+
+            background:
+                rgba(32,227,139,.09);
+        }
+
+
+        .stat.yellow .stat-icon {
+
+            background:
+                rgba(255,200,87,.09);
+        }
+
+
+        .stat.cyan .stat-icon {
+
+            background:
+                rgba(0,229,255,.08);
+        }
+
+
+        .stat-label {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .stat-value {
+
+            font-size: 22px;
+
+            font-weight: 850;
+
+            letter-spacing: -.5px;
+        }
+
+
+        .stat-sub {
+
+            color: #59687b;
+
+            font-size: 10px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================================
+           GRID
+        ========================================= */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.7fr)
+                minmax(280px, .8fr);
+
+            gap: 18px;
+        }
+
+
+        .panel {
+
+            background:
+                rgba(9,15,27,.9);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            overflow: hidden;
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 17px 18px;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+
+        .panel-title {
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+
+        .panel-link {
+
+            color: var(--blue-2);
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           TASKS
+        ========================================= */
+
+        .tasks {
+
+            padding: 8px;
+        }
+
+
+        .task {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 13px 10px;
+
+            border-radius: 13px;
+
+            transition: .2s;
+        }
+
+
+        .task:hover {
+
+            background:
+                rgba(255,255,255,.035);
+        }
+
+
+        .task-icon {
+
+            flex-shrink: 0;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(19,140,255,.13),
+                    rgba(0,229,255,.05)
+                );
+
+            border:
+                1px solid
+                rgba(19,140,255,.1);
+        }
+
+
+        .task-info {
+
+            flex: 1;
+
+            min-width: 0;
+        }
+
+
+        .task-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .task-info span {
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        .task-reward {
+
+            text-align: right;
+
+            margin-right: 8px;
+        }
+
+
+        .task-reward strong {
+
+            display: block;
+
+            color: var(--green);
+
+            font-size: 12px;
+        }
+
+
+        .task-reward small {
+
+            color: #5f6e80;
+
+            font-size: 9px;
+        }
+
+
+        .task-button {
+
+            border: 0;
+
+            cursor: pointer;
+
+            padding: 8px 11px;
+
+            border-radius: 9px;
+
+            background:
+                rgba(19,140,255,.1);
+
+            color: #6bc7ff;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .task-button:hover {
+
+            background:
+                var(--blue);
+
+            color: white;
+        }
+
+
+        .empty {
+
+            padding: 40px 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+
+        .empty-icon {
+
+            font-size: 30px;
+
+            opacity: .45;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================================
+           SIDE PANELS
+        ========================================= */
+
+        .side-stack {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        /* =========================================
+           INDICATION
+        ========================================= */
+
+        .referral {
+
+            padding: 18px;
+        }
+
+
+        .referral p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.55;
+
+            margin-bottom: 13px;
+        }
+
+
+        .code-box {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 8px;
+
+            background:
+                rgba(0,0,0,.2);
+
+            border:
+                1px solid
+                rgba(0,200,255,.1);
+
+            border-radius: 11px;
+
+            padding: 11px 12px;
+        }
+
+
+        .code-box strong {
+
+            color: var(--cyan);
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+
+        .copy-button {
+
+            border: 0;
+
+            background:
+                rgba(19,140,255,.12);
+
+            color: #7acbff;
+
+            padding: 7px 9px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .ref-link {
+
+            margin-top: 10px;
+
+            width: 100%;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            color: #7f8da1;
+
+            font-size: 9px;
+
+            text-align: center;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================
+           QUICK ACTIONS
+        ========================================= */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 8px;
+
+            padding: 12px;
+        }
+
+
+        .quick {
+
+            padding: 13px 10px;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.045);
+
+            color: #aeb9c8;
+
+            text-align: center;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .quick span {
+
+            display: block;
+
+            font-size: 18px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .quick:hover {
+
+            border-color:
+                rgba(19,140,255,.2);
+
+            color: white;
+        }
+
+
+        /* =========================================
+           PROGRESS
+        ========================================= */
+
+        .progress-panel {
+
+            padding: 17px;
+        }
+
+
+        .progress-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 9px;
+
+            font-size: 11px;
+        }
+
+
+        .progress-top span:first-child {
+
+            color: var(--muted);
+        }
+
+
+        .progress-top strong {
+
+            color: var(--cyan);
+        }
+
+
+        .progress {
+
+            height: 7px;
+
+            background:
+                rgba(255,255,255,.05);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            width: 38%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--cyan)
+                );
+
+            box-shadow:
+                0 0 12px
+                rgba(0,200,255,.3);
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            padding: 28px 0 0;
+
+            text-align: center;
+
+            color: #4c5b6e;
+
+            font-size: 10px;
+        }
+
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .loading-screen {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                var(--bg);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+
+            transition: .3s;
+        }
+
+
+        .loader {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            border:
+                3px solid
+                rgba(255,255,255,.08);
+
+            border-top-color:
+                var(--cyan);
+
+            animation:
+                spin .8s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1050px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .content-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+                box-shadow:
+                    20px 0 50px
+                    rgba(0,0,0,.4);
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                padding:
+                    18px 14px 30px;
+            }
+
+
+            .mobile-menu {
+
+                display: block;
+            }
+
+
+            .topbar {
+
+                gap: 10px;
+            }
+
+
+            .welcome {
+
+                flex: 1;
+
+                margin-left: 8px;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 19px;
+            }
+
+
+            .welcome p {
+
+                font-size: 11px;
+            }
+
+
+            .user-mini {
+
+                display: none;
+            }
+
+
+            .hero {
+
+                padding: 20px;
+
+            }
+
+
+            .hero h2 {
+
+                font-size: 21px;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 9px;
+            }
+
+
+            .stat {
+
+                padding: 14px;
+            }
+
+
+            .stat-value {
+
+                font-size: 18px;
+            }
+
+
+            .content-grid {
+
+                display: block;
+            }
+
+
+            .side-stack {
+
+                margin-top: 16px;
+            }
+
+
+            .task {
+
+                align-items: flex-start;
+
+            }
+
+
+            .task-reward {
+
+                display: none;
+            }
+
+
+            .task-button {
+
+                align-self: center;
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
+            .stats {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .stat-label {
+
+                font-size: 9px;
+            }
+
+
+            .stat-value {
+
+                font-size: 16px;
+            }
+
+
+            .hero-button {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     LOADING
+========================================= -->
+
+<div
+    class="loading-screen"
+    id="loadingScreen"
+>
+
+    <div class="loader"></div>
+
+</div>
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            P
+        </div>
+
+        <div class="brand-name">
+            Paid<span>ToWork</span>
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        Principal
+    </div>
+
+
+    <nav class="menu">
+
+        <a
+            href="#"
+            class="active"
+        >
+
+            <span class="menu-icon">
+                ◈
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a href="#tarefas">
+
+            <span class="menu-icon">
+                ✓
+            </span>
+
+            Tarefas
+
+        </a>
+
+
+        <a href="#ganhos">
+
+            <span class="menu-icon">
+                $
+            </span>
+
+            Meus ganhos
+
+        </a>
+
+
+        <a href="#indicacoes">
+
+            <span class="menu-icon">
+                ♧
+            </span>
+
+            Indicações
+
+        </a>
+
+
+        <a href="#ranking">
+
+            <span class="menu-icon">
+                ♛
+            </span>
+
+            Ranking
+
+        </a>
+
+    </nav>
+
+
+    <div class="menu-title">
+        Conta
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="#saque">
+
+            <span class="menu-icon">
+                ⇩
+            </span>
+
+            Solicitar saque
+
+        </a>
+
+
+        <a href="#perfil">
+
+            <span class="menu-icon">
+                ◉
+            </span>
+
+            Meu perfil
+
+        </a>
+
+
+        <a href="#ajuda">
+
+            <span class="menu-icon">
+                ?
+            </span>
+
+            Ajuda
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="support-card">
+
+            <strong>
+                Precisa de ajuda?
+            </strong>
+
+            <p>
+                Consulte nossa central de suporte
+                quando precisar.
+            </p>
+
+        </div>
+
+
+        <button
+            class="logout"
+            id="logoutButton"
+        >
+
+            ⇥ &nbsp; Sair da conta
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <button
+            class="mobile-menu"
+            id="mobileMenu"
+        >
+            ☰
+        </button>
+
+
+        <div class="welcome">
+
+            <h1>
+                Olá, <span id="userName">Usuário</span> 👋
+            </h1>
+
+            <p>
+                Aqui está um resumo da sua atividade no PTW.
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <div class="notification">
+
+                🔔
+
+                <span
+                    class="notification-dot"
+                ></span>
+
+            </div>
+
+
+            <div class="user-mini">
+
+                <div
+                    class="avatar"
+                    id="avatar"
+                >
+                    U
+                </div>
+
+
+                <div>
+
+                    <strong id="miniName">
+                        Usuário
+                    </strong>
+
+                    <small>
+                        Membro PTW
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         HERO
+    ========================================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-tag">
+                ● Plataforma ativa
+            </div>
+
+
+            <h2>
+                Ganhe realizando
+                <span>tarefas online.</span>
+            </h2>
+
+
+            <p>
+                Escolha tarefas disponíveis,
+                realize as atividades e acumule
+                saldo diretamente na sua conta.
+            </p>
+
+
+            <a
+                href="#tarefas"
+                class="hero-button"
+            >
+                Ver tarefas disponíveis →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STATS
+    ========================================= -->
+
+    <section
+        class="stats"
+        id="ganhos"
+    >
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                💰
+            </div>
+
+            <div class="stat-label">
+                Saldo disponível
+            </div>
+
+            <div
+                class="stat-value"
+                id="saldo"
+            >
+                R$ 0,00
+            </div>
+
+            <div class="stat-sub">
+                disponível para saque
+            </div>
+
+        </div>
+
+
+        <div class="stat green">
+
+            <div class="stat-icon">
+                📈
+            </div>
+
+            <div class="stat-label">
+                Total ganho
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalGanho"
+            >
+                R$ 0,00
+            </div>
+
+            <div class="stat-sub">
+                desde o cadastro
+            </div>
+
+        </div>
+
+
+        <div class="stat cyan">
+
+            <div class="stat-icon">
+                ⚡
+            </div>
+
+            <div class="stat-label">
+                Tarefas concluídas
+            </div>
+
+            <div
+                class="stat-value"
+                id="tarefasConcluidas"
+            >
+                0
+            </div>
+
+            <div class="stat-sub">
+                atividades realizadas
+            </div>
+
+        </div>
+
+
+        <div class="stat yellow">
+
+            <div class="stat-icon">
+                👥
+            </div>
+
+            <div class="stat-label">
+                Indicações
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalIndicacoes"
+            >
+                0
+            </div>
+
+            <div class="stat-sub">
+                pessoas indicadas
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =========================================
+         CONTENT
+    ========================================= -->
+
+    <section class="content-grid">
+
+
+        <!-- =====================================
+             TASKS
+        ====================================== -->
+
+        <div
+            class="panel"
+            id="tarefas"
+        >
+
+            <div class="panel-header">
+
+                <div class="panel-title">
+                    ⚡ Tarefas disponíveis
+                </div>
+
+                <a
+                    href="#"
+                    class="panel-link"
+                >
+                    Ver todas
+                </a>
+
+            </div>
+
+
+            <div
+                class="tasks"
+                id="tasksList"
+            >
+
+
+                <div class="task">
+
+                    <div class="task-icon">
+                        🌐
+                    </div>
+
+
+                    <div class="task-info">
+
+                        <strong>
+                            Aguardando tarefas
+                        </strong>
+
+                        <span>
+                            As novas tarefas aparecerão aqui.
+                        </span>
+
+                    </div>
+
+
+                    <div class="task-reward">
+
+                        <strong>
+                            —
+                        </strong>
+
+                        <small>
+                            recompensa
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        class="task-button"
+                        disabled
+                    >
+                        Em breve
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             SIDE
+        ====================================== -->
+
+        <div class="side-stack">
+
+
+            <!-- INDICATION -->
+
+            <div
+                class="panel"
+                id="indicacoes"
+            >
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        👥 Indique e ganhe
+                    </div>
+
+                </div>
+
+
+                <div class="referral">
+
+                    <p>
+                        Convide amigos para o PTW
+                        usando seu código de indicação.
+                    </p>
+
+
+                    <div class="code-box">
+
+                        <strong
+                            id="referralCode"
+                        >
+                            —
+                        </strong>
+
+
+                        <button
+                            class="copy-button"
+                            id="copyCode"
+                        >
+                            COPIAR
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="ref-link"
+                        id="referralLink"
+                    >
+                        Seu link aparecerá aqui
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        🎯 Atividade
+                    </div>
+
+                </div>
+
+
+                <div class="progress-panel">
+
+                    <div class="progress-top">
+
+                        <span>
+                            Nível atual
+                        </span>
+
+                        <strong>
+                            Iniciante
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        style="
+                        margin-top:8px;
+                        color:#58677a;
+                        font-size:10px;
+                        "
+                    >
+                        Continue realizando tarefas
+                        para aumentar seu nível.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        Acesso rápido
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <a
+                        href="#saque"
+                        class="quick"
+                    >
+
+                        <span>💳</span>
+
+                        Solicitar saque
+
+                    </a>
+
+
+                    <a
+                        href="#ranking"
+                        class="quick"
+                    >
+
+                        <span>🏆</span>
+
+                        Ranking
+
+                    </a>
+
+
+                    <a
+                        href="#perfil"
+                        class="quick"
+                    >
+
+                        <span>👤</span>
+
+                        Meu perfil
+
+                    </a>
+
+
+                    <a
+                        href="#ajuda"
+                        class="quick"
+                    >
+
+                        <span>💬</span>
+
+                        Suporte
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        © 2026 Paid To Work ·
+        Plataforma de tarefas online
+
+    </footer>
+
+
+</main>
+
+
+<!-- =========================================
+     FIREBASE / DASHBOARD
+========================================= -->
+
+<script type="module">
+
+    import {
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+    import {
+        auth
+    } from "./js/firebase.js";
+
+
+    // =========================================
+    // CONFIGURAÇÃO DO WORKER
+    // =========================================
+
+    const WORKER_URL =
+        "https://SEU-WORKER.workers.dev";
+
+
+    // =========================================
+    // ELEMENTOS
+    // =========================================
+
+    const loadingScreen =
+        document.getElementById("loadingScreen");
+
+
+    const userName =
+        document.getElementById("userName");
+
+
+    const miniName =
+        document.getElementById("miniName");
+
+
+    const avatar =
+        document.getElementById("avatar");
+
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    const saldo =
+        document.getElementById("saldo");
+
+
+    const totalGanho =
+        document.getElementById("totalGanho");
+
+
+    const referralCode =
+        document.getElementById("referralCode");
+
+
+    const referralLink =
+        document.getElementById("referralLink");
+
+
+    const copyCode =
+        document.getElementById("copyCode");
+
+
+    // =========================================
+    // MENU MOBILE
+    // =========================================
+
+    mobileMenu.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.toggle("open");
+
+        }
+    );
+
+
+    // =========================================
+    // LOGOUT
+    // =========================================
+
+    logoutButton.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(auth);
+
+                window.location.href =
+                    "index.html";
+
+            } catch (error) {
+
+                console.error(
+                    "Erro ao sair:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+
+    // =========================================
+    // AUTENTICAÇÃO
+    // =========================================
+
+    onAuthStateChanged(
+        auth,
+        async (user) => {
+
+
+            // -------------------------------------
+            // NÃO LOGADO
+            // -------------------------------------
+
+            if (!user) {
+
+                window.location.href =
+                    "index.html";
+
+                return;
+
+            }
+
+
+            // -------------------------------------
+            // DADOS BÁSICOS
+            // -------------------------------------
+
+            const email =
+                user.email || "";
+
+
+            let name =
+                user.displayName ||
+                email.split("@")[0] ||
+                "Usuário";
+
+
+            name =
+                name
+                .charAt(0)
+                .toUpperCase() +
+                name.slice(1);
+
+
+            userName.textContent =
+                name;
+
+
+            miniName.textContent =
+                name;
+
+
+            avatar.textContent =
+                name
+                .charAt(0)
+                .toUpperCase();
+
+
+            // -------------------------------------
+            // BUSCAR PERFIL NO BASEROW
+            // -------------------------------------
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${WORKER_URL}/api/usuarios/${encodeURIComponent(user.uid)}`
+                    );
+
+
+                if (response.ok) {
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        result.success &&
+                        result.usuario
+                    ) {
+
+                        const usuario =
+                            result.usuario;
+
+
+                        // -------------------------
+                        // NOME
+                        // -------------------------
+
+                        if (usuario["Nome"]) {
+
+                            userName.textContent =
+                                usuario["Nome"];
+
+                            miniName.textContent =
+                                usuario["Nome"];
+
+                            avatar.textContent =
+                                usuario["Nome"]
+                                .charAt(0)
+                                .toUpperCase();
+
+                        }
+
+
+                        // -------------------------
+                        // SALDO
+                        // -------------------------
+
+                        if (
+                            usuario["Saldo"] !==
+                            undefined
+                        ) {
+
+                            saldo.textContent =
+                                formatMoney(
+                                    usuario["Saldo"]
+                                );
+
+                        }
+
+
+                        // -------------------------
+                        // TOTAL GANHO
+                        // -------------------------
+
+                        if (
+                            usuario["Total_Ganho"] !==
+                            undefined
+                        ) {
+
+                            totalGanho.textContent =
+                                formatMoney(
+                                    usuario["Total_Ganho"]
+                                );
+
+                        }
+
+
+                        // -------------------------
+                        // CÓDIGO
+                        // -------------------------
+
+                        if (
+                            usuario["Codigo_Indicacao"]
+                        ) {
+
+                            referralCode.textContent =
+                                usuario[
+                                    "Codigo_Indicacao"
+                                ];
+
+
+                            const link =
+                                `${window.location.origin}${window.location.pathname.replace("dashboard.html", "index.html")}?ref=${encodeURIComponent(usuario["Codigo_Indicacao"])}`;
+
+
+                            referralLink.textContent =
+                                link;
+
+                        }
+
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.log(
+                    "Perfil ainda não disponível:",
+                    error
+                );
+
+            }
+
+
+            // -------------------------------------
+            // LIBERAR DASHBOARD
+            // -------------------------------------
+
+            loadingScreen.style.opacity =
+                "0";
+
+
+            setTimeout(
+                () => {
+
+                    loadingScreen.style.display =
+                        "none";
+
+                },
+                300
+            );
+
+        }
+    );
+
+
+    // =========================================
+    // FORMATAR DINHEIRO
+    // =========================================
+
+    function formatMoney(value) {
+
+        const number =
+            Number(value) || 0;
+
+
+        return number.toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
+
+    }
+
+
+    // =========================================
+    // COPIAR CÓDIGO
+    // =========================================
+
+    copyCode.addEventListener(
+        "click",
+        async () => {
+
+            const code =
+                referralCode.textContent.trim();
+
+
+            if (
+                !code ||
+                code === "—"
+            ) {
+
+                return;
+
+            }
+
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    code
+                );
+
+
+                copyCode.textContent =
+                    "COPIADO!";
+
+
+                setTimeout(
+                    () => {
+
+                        copyCode.textContent =
+                            "COPIAR";
+
+                    },
+                    1500
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
